@@ -1,0 +1,87 @@
+\documentclass[11pt]{article}
+\usepackage{titlesec}
+
+\setcounter{secnumdepth}{4}
+
+\parindent 0px % no automatic indentation
+
+\usepackage{amsmath,amssymb,amstext,amsthm,amsfonts}
+\usepackage{float}
+\usepackage[shortlabels]{enumitem}
+\usepackage[a4paper,lmargin={2cm},rmargin={2cm},tmargin={2.5cm},bmargin = {2.5cm},headheight = {4cm}]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xspace}
+\usepackage{empheq}
+\usepackage{mdframed}
+\usepackage{changepage}
+%\usepackage{hanging}
+\usepackage{romanbar}
+\usepackage{mathtools}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage[headsepline]{scrlayer-scrpage} 
+\pagestyle{scrheadings} 
+\usepackage{titling}
+\usepackage{cancel}
+\usepackage{booktabs}
+
+\usepackage{listings}
+\usepackage{xcolor} % Optional, for coloring code
+
+\lstset{
+  language=SQL,  % Setting the language
+  basicstyle=\ttfamily\small, % The default font size and style of the code
+  showspaces=false, % Show spaces adding particular underscores
+  showstringspaces=false, % Underline spaces within strings only
+  showtabs=false, % Show tabs within strings adding particular underscores
+  %frame=single, % Adds a frame around the code
+  tabsize=2, % Sets default tabsize to 2 spaces
+  captionpos=b, % Sets the caption-position to bottom
+  breaklines=true,  % Sets automatic line breaking
+  breakatwhitespace=false, % Sets if automatic breaks should only happen at whitespace
+  commentstyle=\color{gray}, % Comment style
+  keywordstyle=\color{blue}, % Keyword style
+  stringstyle=\color{red}  % String literal style
+}
+
+\pagestyle{plain}
+
+% MACROS
+\newcommand{\ind}{\perp\!\!\!\!\perp} 
+
+
+\title{Database Systems}
+\author{Michael Sigg}
+\date{\today}
+
+\ohead{\theauthor}
+\ihead{Database Systems, Spring 24}
+
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage
+
+\section{Database Systems}
+\input{sections/DBSystems}
+
+\section{The Relational Model}
+\input{sections/relationalModel}
+
+\section{SQL}
+\input{sections/SQL}
+
+
+\end{document}

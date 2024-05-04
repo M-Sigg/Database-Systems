@@ -1,0 +1,404 @@
+\begin{itemize}
+    \item SQL is based on \textbf{multisets} (or bags) rather than sets. In a multiset an element may occur multiple times.
+    \begin{itemize}
+        \item Reasons for not automatically removing duplicates:
+        \begin{itemize}
+            \item expensive to remove duplicates (sorting)
+            \item for aggregation duplicates are relevant
+        \end{itemize}
+
+    \end{itemize}
+    \item We write \{...\} for a set and \{\{...\}\} for a bag
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+    \specialrule{0.01em}{0em}{0em} 
+     \textbf{SQL} & \textbf{Relational Algebra} & \textbf{Domain Relational Calculus}  \\
+    \specialrule{0.01em}{0em}{0em} 
+     table & relation & predicate \\
+    \specialrule{0.005em}{0em}{0em} % Fine line with specified thickness and spacing
+     column & attribute & argument\\
+    \specialrule{0.005em}{0em}{0em}  % Fine line with specified thickness and spacing
+    row & tuple & - \\
+    \specialrule{0.005em}{0em}{0em}  % Fine line with specified thickness and spacing
+    query & RA expression & formula \\
+     \specialrule{0.01em}{0em}{0em} 
+\end{tabular}
+\end{table}
+
+\subsection{Data Definition Language}
+
+\subsubsection{Domain Types}
+Domain Types in SQL:
+\begin{itemize}
+    \item CHAR(n): fixed length character string
+    \item VARCHAR(n): character string with maximum length $n$
+    \item INTEGER
+    \item SMALLINT
+    \item NUMERIC(p,d): Fixed point number, user-specified precision of $p$ digits, with $n$ digits to the right of decimal point
+    \item REAL, DOUBLE PRECISION: Floating point and double-precision floating point numbers
+    \item FLOAT(n): Floating point number, with user-specified precision of at least $n$ digits
+\end{itemize}
+\subsubsection{Create, dropping and altering tables}
+\textbf{\underline{Create Table Construct}}
+\bigskip
+
+Example: 
+\begin{lstlisting}[caption= Create Table Example]
+    CREATE TABLE branch (
+        BranchName CHAR(15),
+        BranchCity CHAR(30),
+        Assets INTEGER )
+\end{lstlisting}
+
+\textbf{\underline{Drop and Alter Table Constructs}}
+\bigskip
+\begin{itemize}
+    \item The \textbf{drop table} command deletes the whole table from the database
+    \item The \textbf{alter table} command is used to add columns to an existing table
+    \begin{itemize}
+        \item[] \textbf{alter table} r \textbf{add} $A$ $D$ 
+    \end{itemize}
+\end{itemize}
+
+
+\subsubsection{Integrity constrains}
+
+\begin{itemize}
+    \item Integrity constraints guard against damage to the database
+    \item Formally, an integrity constraint is a closed first order formula that must be true, i.e., that each database instance must satisfy.
+    \begin{itemize}
+        \item Example: $\forall B(account(\_,\_,B) \Rightarrow B<10M)$
+    \end{itemize}
+\end{itemize}
+
+Integrity constraints on single relations:
+\begin{itemize}
+    \item \textbf{Domain Constraints}
+    \begin{itemize}
+        \item Domain constraints are the most elementary form of integrity constraints. They check values inserted in the database, and they check queries to ensure that the comparisons make sense.
+        \item New domains can be created from existing data types
+        \item Example:
+        \begin{itemize}
+            \item[] \begin{lstlisting}
+                CREATE DOMAIN Dollars INTEGER
+                CREATE DOMAIN Pounds INTEGER
+            \end{lstlisting}
+        \end{itemize}
+        \item We cannot assign or compare a value of type Dollar to a value of type Pounds. But we can convert values: 
+        \begin{itemize}
+            \item[] \begin{lstlisting}
+                CAST(r.Amnt/1.5 AS Pounds)
+            \end{lstlisting}
+        \end{itemize}
+    \end{itemize}
+    \item \textbf{not null}
+    \begin{itemize}
+        \item[] \begin{lstlisting}
+            BranchName VARCHAR(15) NOT NULL
+            CREATE DOMAIN Dollars INTEGER NOT NULL
+        \end{lstlisting}
+    \end{itemize}
+    \item \textbf{primary key}
+    \begin{itemize}
+        \item A primary key ensures that an attribute value is not null and unique across all rows of a table. Therefore it can be used to identify a unique row in a table, and is used for query optimization
+        \item Within the Create Table construct include \begin{lstlisting}
+            PRIMARY KEY (CustName)
+        \end{lstlisting}
+    \end{itemize}
+    \item \textbf{unique}
+    \begin{itemize}
+        \item The unique specification states that the attributes $A_1,A_2,...,A_m$ form a candidate key.
+        \item Candidate keys are permitted to be null 
+    \end{itemize}
+    \item \textbf{check}($P$), where $P$ is a predicate over a single relation 
+    \begin{itemize}
+        \item Within the Create Table Construct include: \begin{lstlisting}
+            CHECK (Assets >= 0)
+        \end{lstlisting}
+    \end{itemize}
+\end{itemize}
+
+Integrity constraints over multiple relations (Referential Integrity):
+\begin{itemize}
+    \item \textbf{foreign key}
+    \begin{itemize}
+        \item Within the Create Table Construct include:
+        \begin{lstlisting}
+            FOREIGN KEY (BranchN) REFERENCES branch
+        \end{lstlisting}
+    \end{itemize}
+    \item \textbf{check}($P$), where $P$ is a predicate over multiple relations
+    \item \textbf{assertion}
+    \begin{itemize}
+        \item An assertion is a predicate expressing a condition that the database must satisfy.
+        \item An assertion in SQL takes the form
+        \begin{itemize}
+            \item[] \textbf{create assertion} <assertion-name> \textbf{check} <predicate>
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\subsection{Expressions and Predicates}
+\textbf{\underline{Expressions}}
+\bigskip
+
+\begin{itemize}
+    \item Numeric functions: $+,-,*,/, abs(e), ceil(e), tan(e), log(e), round(e), sign(e), mod(e,f),...$
+    \item Character functions:
+    \begin{itemize}
+        \item concatenation: 'abc' || 'de' = 'abcde'
+        \item \textbf{position}('48' \textbf{in} 'another 48 hours') = 9
+        \item \textbf{substring}('anothe' \textbf{from} 1 \textbf{for} 3) = 'ano'
+        \item \textbf{upper}(e)
+        \item \textbf{trim}(\textbf{leading} ' ' \textbf{from} ' test') = 'test
+    \end{itemize}
+    \item date and time functions:
+    \begin{itemize}
+        \item \textbf{current\_date}, \textbf{current\_time}
+        \item \textbf{current\_timestamp}
+        \item \textbf{current\_date} + \textbf{interval} '1' \textbf{day}
+        \item \textbf{current\_date} - \textbf{date} '1990/3/18'
+        \item \textbf{interval} '6' \textbf{day} - \textbf{interval} 'a' \textbf{day} = \textbf{interval} '5' \textbf{day}
+     \end{itemize}
+     \item type conversions:
+     \begin{itemize}
+         \item \textbf{cast}('48' \textbf{as integer}) = 48
+         \item often "natural" type conversions are done implicitly
+     \end{itemize}
+     \item conditional statement:
+     \begin{lstlisting}
+         case
+         when cond1 then result1
+         ...
+         when condN then resultN
+         else resultX
+         end
+     \end{lstlisting}
+     \item \textbf{coalesce}(val1,..., valN)
+     \begin{itemize}
+         \item returns the first value that is not null (and null if all values are equal to null)
+     \end{itemize}
+     \item  \textbf{nullif}(e1,e2)
+     \begin{itemize}
+         \item returns null if e1 and e2 are identical; useful if missing information is not represented with null; \textbf{nullif}(cost,9999)
+     \end{itemize}
+\end{itemize}
+
+\textbf{\underline{Predicates}}
+\bigskip
+
+\begin{itemize}
+    \item Predicates evaluate to true, false or unknown
+    \item boolean connectives: \textbf{and}, \textbf{or}, \textbf{not}
+    \item $=,<>, <,>,<=,>=$
+    \item e \textbf{[not] between} e1 \textbf{and} e2
+    \item e \textbf{is [not] null}
+    \item e \textbf{in} (e1,...,eN)
+    \item e1 \textbf{like} e2
+    \begin{itemize}
+        \item example:
+        \begin{lstlisting}
+            Name like '_ross%'
+        \end{lstlisting}
+        \item wildcards: \% 0-n characters, \_ 1 character
+    \end{itemize}
+\end{itemize}
+
+
+
+\subsection{Table Expressions, Query Specifications, Query Expressions}
+\textbf{\underline{Structure of SQL Queries:}}
+\bigskip
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{images/Screenshot 2024-05-04 at 16.56.14.jpg}
+\caption{SQL Structure}
+\end{figure}
+
+The result of an SQL query is a (virtual) table.
+
+\subsubsection{The from Clause}
+
+\begin{itemize}
+    \item The \textbf{from} clause lists the table involved in the query
+    \begin{itemize}
+        \item Corresponds to the Cartesian product operation of the relational algebra (if multiple tables listed in from clause)
+    \end{itemize}
+    \item Many different joins supported
+    \begin{itemize}
+        \item \textbf{CROSS JOIN} = Cartesian product (implicitly also given without keyword)
+        \item \textbf{Theta Join}: \quad \textbf{FROM} t1 \textbf{JOIN} t2 \textbf{ON} t1.a < t2.b
+        \item \textbf{Left Outer Join}: \quad \textbf{FROM} t1 \textbf{LEFT OUTER JOIN} t2 \textbf{ON} t1.a = t2.b
+        \item \textbf{Natural Join}:  \quad \textbf{FROM} t1 \textbf{NATURAL INNER JOIN} t2 
+        \item \textbf{Limited Natural Join} (not all pair-wise equal columns are used for the natural join; only the ones specified in the using clause):  \quad \textbf{FROM} t1 \textbf{NATURAL INNER JOIN} t2 \textbf{USING} (name)
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{The where Clause}
+
+\begin{itemize}
+    \item The \textbf{where} clause specifies conditions that the result tuples must satisfy
+    \item Example:
+    \begin{lstlisting}
+        FROM loan
+        WHERE BranchName = 'Perryridge' 
+            AND Amount > 1200
+    \end{lstlisting}
+    \item logical connectives: and, or, not
+\end{itemize}
+
+\subsubsection{The group Clause}
+\begin{itemize}
+    \item The \textbf{group} clause takes the table produced by the where clause and returns a grouped table
+    \item Example:
+    \begin{lstlisting}
+        FROM account
+        GROUP BY BranchName
+    \end{lstlisting}
+    \item The following statements work on the groups (and not on individual tuples)
+\end{itemize}
+
+\subsubsection{The having Clause}
+\begin{itemize}
+    \item The \textbf{having} clause takes a grouped table as input and returns a grouped table
+    \item The having condition is applied to each group. Only groups that satisfy it are returned
+    \item Example:
+    \begin{lstlisting}
+        FROM account
+        GROUP BY BranchName
+        HAVING COUNT(AccNr) > 1
+    \end{lstlisting}
+\end{itemize}
+
+\subsubsection{The select Clause}
+\begin{itemize}
+    \item The \textbf{select} clause lists the columns that shall be in the result of a query
+    \begin{itemize}
+        \item Corresponds to the projection operation of RA
+    \end{itemize}
+    \item To force the elimination of duplicates, insert the keyword \textbf{distinct} after select
+    \item In the select clause aggregate functions can be used:
+    \begin{itemize}
+        \item avg, min, max, sum, count
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Derived Tables}
+\begin{itemize}
+    \item SQL allows a query expression to be used in the \textbf{from} clause
+    \item Example:
+    \begin{lstlisting}
+        SELECT BranchName, AvgBalance
+        FROM ( SELECT BranchName AVG(Balance)
+               FROM account
+               GROUP BY BranchName
+             ) AS branchAvg(BranchName, AvgBalance)
+        WHERE AvgBalance > 1200
+    \end{lstlisting}
+\end{itemize}
+
+\subsubsection{Query Expressions}
+\begin{itemize}
+    \item The set operations \textbf{union}, \textbf{intersect}, and \textbf{except} operate on tables and correspond to the relational algebra operations $\cup, \cap, -$
+    \item Each automatically removes duplicates, to preserve duplicates add \textbf{all} after operator
+\end{itemize}
+
+\subsection{Subqueries, Duplicates, Null Values}
+
+\subsubsection{Subqueries}
+
+\begin{itemize}
+    \item A \textbf{subquery} is a \textbf{query expression} that is nested within another query expression.
+    \item Example:
+    \begin{lstlisting}
+        SELECT X FROM p WHERE X IN (SELECT Y FROM q)
+    \end{lstlisting}
+    \item[\textbf{!}] Semantics/evaluation: For each tuple of p evaluate the subquery and check if X is in the result table computed by the subquery
+    \item The \textbf{exists} construct returns the value \textbf{true} if the argument subquery is nonempty
+    \begin{itemize}
+        \item[\textbf{!}] Use \textbf{exists} instead of \textbf{in, all, any, some}
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Duplicates}
+
+SQL duplicate semantics:\\
+
+\quad \textbf{select} $A_1,A_2,...,A_n$ \
+
+\quad \textbf{from} $r_1, r_2,...,r_m$ \
+
+\quad \textbf{where} $P$\\
+
+is equivalent to the \textit{multiset} version of the expression: \[
+\pi_{A_1,A_2,...,A_n}(\sigma_P (r_1 \times r_2 \times ... \times r_m))
+\]
+
+\subsubsection{Null Values}
+\begin{itemize}
+    \item The  predicate \textbf{is null} can be used to check for null values.
+    \item Any comparison with \textit{null} returns unknown
+    \begin{itemize}
+        \item Example: $5<null$ or $null<>null$ or $null=null$ 
+    \end{itemize}
+    \item All aggregate operations, expect \textbf{count(*)}, ignore tuples with null values on the aggregated columns. 
+    \begin{itemize}
+        \item Arithmetic operations like $7+ null = null$, thus they do not ignore null values
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Ordering}
+
+\begin{itemize}
+    \item \textbf{ORDER BY} CustName => orders the result table alphabetically (ascending = default)
+    \item \textbf{ORDER BY} CustName \textbf{DESC} => in descending order
+\end{itemize}
+
+\subsection{Modification of the Database}
+
+\subsubsection{Insertions}
+\begin{lstlisting}
+    INSERT INTO account
+        VALUES ('A-9732', 'Perryridge', 1200)
+\end{lstlisting}
+
+\subsubsection{Deletions}
+\begin{lstlisting}
+    DELETE FROM account
+    WHERE BranchName = 'Perryridge'
+\end{lstlisting}
+\subsubsection{Updates}
+\begin{lstlisting}
+    UPDATE account
+    SET Balance = Balance * 1.06
+    WHERE Balance > 10000
+
+    UPDATE account 
+    SET Balance = Balance * 1.05
+    WHERE Balance <= 10000
+\end{lstlisting}
+Here order matters! $\Rightarrow$ Better use the \textbf{case} statement 
+\begin{lstlisting}
+    UPDATE account
+    SET Balance = CASE 
+                    WHEN Balance <= 10000
+                    THEN Balance * 1.05
+                    ELSE Balance * 1.06
+                  END
+\end{lstlisting}   
+
+\subsection{Views and Recursion}
+
+\subsubsection{Purpose of views}
+
+\subsubsection{Creation and use of views}
+
+\subsubsection{Handling views in the DBMS}
+
+\subsubsection{Temporary Views}
+
+
+\subsection{User Defined Functions}

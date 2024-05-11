@@ -72,12 +72,12 @@
 
 \textbf{\underline{Constraints}}
 \bigskip
-Key Constraints
+Key Constraints \label{keyConstraints}
 \begin{itemize}
     \item Let $K\subseteq attr(R)$
     \item $K$ is a \textbf{superkey} of $R$ if values for $K$ are sufficient to identify a unique tuple of each possible relation $r$
     \item Superkey are not minimal
-    \item $K$ is a \textbf{candidate key} if $K$ is minimal
+    \item $K$ is a \textbf{candidate key} if $K$ is a \textit{superkey} and $K$ is minimal
     \item \textbf{Primary key}: a candidate key chosen as the principal means of identifying tuples within a relation
 \end{itemize}
 Entity constraints

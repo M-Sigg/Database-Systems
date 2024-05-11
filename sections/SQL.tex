@@ -390,15 +390,206 @@ Here order matters! $\Rightarrow$ Better use the \textbf{case} statement
                   END
 \end{lstlisting}   
 
-\subsection{Views and Recursion}
+\subsection{Views}
+
 
 \subsubsection{Purpose of views}
 
+\begin{itemize}
+    \item A view is a table whose rows are not stored in the database. The rows are computed when needed from the view definition.
+    \item A view provides a mechanism to hide data from the view of users, or to give users direct access to the results of (complex) computations.
+\end{itemize}
 \subsubsection{Creation and use of views}
 
+\begin{itemize}
+    \item A view is defined using the \textbf{create view} statement which has the form 
+    \begin{itemize}
+        \item[] \textbf{CREATE VIEW} \textit{v} \textbf{AS} <query expression>
+    \end{itemize}
+\end{itemize}
+
 \subsubsection{Handling views in the DBMS}
+\begin{itemize}
+    \item The view definition is stored in the meta database.
+    \item A view is \textbf{updatable} if the database system can determine the reverse mapping 
+    \item Example:
+    \begin{itemize}
+        \item[] \begin{lstlisting}
+            CREATE VIEW goodStudents (sid, gpa) AS
+                SELECT SID, GPA
+                FROM students
+                WHERE GPA > 3.0;
 
-\subsubsection{Temporary Views}
+            INSERT INTO goodStudents VALUES (51234, 2.8)                 
+        \end{lstlisting}
+        \begin{itemize}
+            \item Result: student is inserted into students relation, but cannot be retrieved through the view \textit{goodStudents}
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Temporary Views - With Clause}
+\begin{itemize}
+    \item The \textbf{with} clause provides a way of defining temporary views whose definition is only available to the query in which the \textbf{with} clause occurs
+    \item Example:
+    \item[] \begin{lstlisting}
+        WITH
+        maxBalance (Val) AS (
+            SELECT MAX(Balance)
+            FROM account
+        )
+        SELECT AccNr
+        FROM account, maxBalance
+        WHERE account.Balance = maxBalance.Val
+    \end{lstlisting}
+\end{itemize}
+
+\subsubsection{Recursion in SQL}
+\begin{itemize}
+    \item Recursive views are required to be \textbf{monotonic}. That is, if we add tuples to \textit{manager} the view contains all of the tuples it contained before, plus possibly more.
+    \item Example:
+    \begin{itemize}
+        \item[] \begin{lstlisting}
+            WITH RECURSIVE mgr(EmpName, MgrName) AS (
+                SELECT EmpName, BossName % base case
+                FROM empl
+                UNION
+                SELECT empl.EmpName, mgr.MgrName % recursive case
+                FROM empl, mgr
+                WHERE BossName = mgr.EmpName
+            )
+            SELECT * FROM mgr;
+        \end{lstlisting}
+        \item View \textit{mgr} is the \textbf{transitive closure} of the \textit{empl} relation
+    \end{itemize}
+\end{itemize}
 
 
-\subsection{User Defined Functions}
+\subsection{User Defined Functions (UDF)}
+\begin{itemize}
+    \item User defined functions or stored procedures allow to execute application logic in the process space of the DBMS.
+    \item $\Rightarrow$ good for performance since it reduces the amount of data that is transferred between client and server.
+\end{itemize}
+
+\subsubsection{PL/pgSQL value functions}
+\begin{itemize}
+    \item Structure
+    \begin{lstlisting}[]
+        create function somefunc()
+        returns < retype > as $$
+        [ declare 
+            < declarations> ]
+        begin 
+            < statements >
+        end;
+        $$ language plpgsql;
+    \end{lstlisting}
+    \item < \textit{retype} >
+        \begin{itemize}
+            \item INTEGER, RECORD, TABLE, ...
+        \end{itemize}
+    \item < \textit{declarations} >
+    \begin{lstlisting}
+        quantity INTEGER := 30;
+        tbl_row account%ROWTYPE;
+    \end{lstlisting}
+    \item < \textit{statements} >
+    \begin{lstlisting}
+        quantity := 4;
+
+        IF quantity < 5 THEN
+            quantity := 5;
+        END IF;
+
+        WHILE quantity < 10 LOOP
+            quantity := quantity + 1;
+        END LOOP;     
+    \end{lstlisting}
+    \item A \textbf{value function} returns a value (or tuple) 
+    \item Example:
+    \begin{lstlisting}
+        CREATE FUNCTION accountCnt (CName VARCHAR(9))
+        RETURNS INTEGER AS
+        $$
+        DECLARE
+            accCnt INTEGER;
+        BEGIN 
+            SELECT COUNT(*) INTO accCnt
+            FROM depositor
+            WHERE depositor.CustName = CName;
+            RETURN accCnt;
+        END;
+        $$ LANGUAGE PLPGSQL;
+    \end{lstlisting}
+    \item Usage: \begin{lstlisting}
+        SELECT accountCnt('Bob');
+    \end{lstlisting}
+\end{itemize}
+
+\subsubsection{PL/pgSQL table functions}
+\begin{itemize}
+    \item \textbf{Table functions} return a table
+    \item Example - All accounts with a balance above a threshold:
+    \begin{lstlisting}
+        CREATE FUNCTION highAccnts (limitVal INTEGER)
+        RETURNS TABLE (AccNum INTEGER,
+                       BrName VARCHAR(15),
+                       Bal INTEGER) AS
+        $$
+        BEGIN
+            RETURN QUERY
+                SELECT AccNr, BranchName, Balance
+                FROM account A
+                WHERE A.Balance > highAccnts.limitVal;
+        END;
+        $$ LANGUAGE PLPGSQL;
+    \end{lstlisting}
+    \item Usage:
+    \begin{lstlisting}
+        SELECT * FROM highAccnts(1000);
+    \end{lstlisting}
+\end{itemize}
+
+\subsection{Summary}
+\begin{itemize}
+    \item DDL (data definition language)
+    \begin{itemize}
+        \item Used to \textbf{create, alter}, and \textbf{drop} tables.
+        \item Table definitions include \textbf{constraints} (domain, not null, primary key, foreign key)
+        \item Constraints ensure \textbf{data quality}, which in turn gives competitive advantages to businesses
+        \item Enforcing constraints is difficult and requires a focused effort. People try to work around
+        \item Data quality must be considered during data acquisition; the database system must enforce it; it cannot be fixed later
+    \end{itemize}
+    \item Expressions and predicates
+    \begin{itemize}
+        \item Database systems have been conservative since the efficient evaluation must be considered
+        \item The brute force evaluation of a condition on one billion tuples might not be good enough.
+        \item Modern database systems are extensible with user defined functions
+    \end{itemize}
+    \item SQL
+    \begin{itemize}
+        \item SQL is used very heavily in practice
+        \item The building block of the DML are \textbf{query specifications} and \textbf{query expressions}
+        \item SQL is more than simple select-from-where. The set based semantics of SQL requires some practice
+        \item Know the \textbf{conceptual evaluation}/semantics of query expressions
+        \begin{itemize}
+            \item From the cross product of the tables in the from clause
+            \item Eliminate tuples that do not satisfy the where clause
+            \item Group the remaining tuples according to the group clause
+            \item Eliminate groups that do not satisfy the having clause
+            \item With aggregation one result tuple is produced for each group
+            \item Eliminate duplicates if distinct is specified
+            \item Compute query expressions independently and apply set operations (union, except, intersect)
+            \item Sort all result tuples if order clause is specified
+        \end{itemize}
+    \end{itemize}
+    \item The difference between \textbf{set} and \textbf{multisets} (or bags) is relevant
+    \item \textbf{Subqueries} are natural and help understanding: it is possible (and advisable) to only use \textbf{exists} and \textbf{not exists}
+    \item Large parts of RA, SQL and DRC are equivalent; know how to go from one to the other
+    \item Modification statements use the \textbf{logical update semantics} (compute changes before they are applied)
+    \item The SQL OLAP extensions further extend SQL to better support report generation (cross tabs, moving averages, etc.)
+    \item \textbf{Views} are essential to break up large tasks (SQL statements) in small, independent and manageable blocks
+    \item \textbf{Recursive queries} are used to compute ancestors, descendants, transitive closures, etc.
+    \item \textbf{Functions} and \textbf{procedural constructs} are used heavily by many applications
+\end{itemize}
+

@@ -3,7 +3,7 @@
 \subsubsection{Goals of Relational Database Design}
 The goal of relational database design is to find a good collection of relation schemas. The main problem is to find a good grouping of the attributes into relation schemas.\\
 We have a good collection of relation schemas if we:
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Ensure a simple semantics of tuples and attributes
     \item Avoid redundant data
     \item Avoid update anomalies
@@ -31,7 +31,7 @@ A set of attributes X \textit{functionally determines} a set of attributes Y if 
 
 A functional dependency $X\rightarrow Y$ is \textbf{trivial} iff $Y\subseteq X$: \quad $(\underset{X}{FN,LN} \rightarrow \underset{Y}{FN})$ \label{trivial}\\
 
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item A FD constraint must hold on \textit{every} relation instance r(R)
     \item If K is a candidate key of R, the K functionally determines all attributes in R (since we never have two distinct tuples with $t_1[K]=t_2[K]$ 
 \end{itemize}
@@ -39,17 +39,17 @@ A functional dependency $X\rightarrow Y$ is \textbf{trivial} iff $Y\subseteq X$:
 
 
 \subsubsection{Armstrong's inference rules}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Given a set of FDs $F$, we can \textbf{infer} additional FDs that hold whenever the FDs in $F$ hold
     \item Armstrong's inference rules:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Reflexivity: $Y\subseteq X \models X\rightarrow Y$
         \item Augmentation: $X \rightarrow Y \models XZ \rightarrow YZ$
         \item Transitivity: $X\rightarrow Y, Y \rightarrow Z \models X \rightarrow Z$
     \end{itemize}
     \item Armstrong's inference rules are \textbf{sound} and \textbf{complete}
     \item Additional inference rules that are useful:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Decomposition: $X\rightarrow YZ \models X \rightarrow Y, X \rightarrow Z$
         \item Union: $X \rightarrow Y, X \rightarrow Z \models X \rightarrow YZ$
         \item Pseudotransitivity: $X \rightarrow Y, WY \rightarrow Z \models WX \rightarrow Z$
@@ -57,11 +57,11 @@ A functional dependency $X\rightarrow Y$ is \textbf{trivial} iff $Y\subseteq X$:
 \end{itemize}
 
 \subsubsection{Closure and minimal cover}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item The \textbf{closure} of a set t $F$ of FDs is the set $F^{+}$ of all FDs that can be inferred from $F$
     \item The \textbf{closure} of a set of attributes $X$ with respect to $F$ is the set $X^+$ of all attributes that are functionally determined by $X$
     \item Two sets of FDs $F$ and $G$ are \textbf{equivalent} if:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Every FD in $F$ can be inferred from $G$, and
         \item Every FD in $G$ can be inferred from $F$
         \item Hence, $F$ and $G$ are equivalent if $F^+ = G^+$
@@ -76,18 +76,18 @@ A functional dependency $X\rightarrow Y$ is \textbf{trivial} iff $Y\subseteq X$:
 \end{itemize}
 
 \subsection{Normal Form}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{Normalization}: The process of decomposing bad relations by breaking up their attributes into smaller relations that satisfy the normal forms. 
     \item A normalized database consists of a good collection of relation schemas
     \item The database designers \textit{need not} normalize to the highest possible normal form
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item usually they choose 3NF, BCNF or 4NF 
         \item controlled redundancy is OK/good
     \end{itemize}
 \end{itemize}
 
 \subsubsection{First Normal Form (1NF)}
-Dissallows: \begin{itemize}
+Dissallows: \begin{itemize}[label=\(\rhd\)]
     \item composite attributes
     \item multivalued attributes 
     \item nested relations: attributes whose values for an \textit{individual tuple} are relations 
@@ -95,7 +95,7 @@ Dissallows: \begin{itemize}
 Remedy to get 1NF: Form new relations for each multivalued attribute or nested relation
 
 \subsubsection{Second Normal Form (2NF)}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item A relation schema R is in \textbf{second normal form (2NF)} iff each attribute not contained in a candidate key is not partially functional dependent on a candidate key of R. 
     \item An attribute is \textit{partially functional dependent} on a candidate key if it is functionally dependent on a proper subset of the candidate key
     \item Example: given candidate key SSN, PNum the FD $SSN \rightarrow EName$ would violate 2NF as EName is partially functional dependent on the candidate key (or fully funtional dependent on the subset SSN of the candidate key)
@@ -104,9 +104,9 @@ Remedy to get 1NF: Form new relations for each multivalued attribute or nested r
 
 \subsubsection{Third Normal Form (3NF)}
 
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item A relation schema R is in \textbf{third normal form (3NF)} iff for all $X\rightarrow A \in F^+$ at least \textbf{one} of the following holds:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item $X\rightarrow A$ is trivial \ref{trivial}
         \item X is a superkey for R
         \item A is contained in a candidate key of R
@@ -116,9 +116,9 @@ Remedy to get 1NF: Form new relations for each multivalued attribute or nested r
 \end{itemize}
 
 \subsubsection{Boyce-Codd Normal Form (BCNF)}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item A relation schema R is in \textbf{Boyce-Codd Normal Form (BCNF)} iff for all $X\rightarrow A \in F^+$ at least one of the following holds:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item $X\rightarrow A$ is trivial
         \item X is a superkey of R  
     \end{itemize}
@@ -126,13 +126,13 @@ Remedy to get 1NF: Form new relations for each multivalued attribute or nested r
 \end{itemize}
 
 \subsection{Properties of Decomposition and Normalization Algorithm}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Relational database design by decomposition:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Universal Relation Schema: A relation schema $R(A_1,A_2,,...,A_n)$ that includes all attributes of the database
         \item Decomposition: decompose the universal relation schema R into a set of relation schemas $D=R1,R2,...,Rm$ by using the functional dependencies
         \item Additional conditions:
-        \begin{itemize}
+        \begin{itemize}[label=\(\rhd\)]
             \item Each attribute in R will appear in at least one relation schema Ri in the decomposition so that no attributes are lost
             \item Have each individual relation Ri in the decomposition D in 3NF (or higher)
             \item \textbf{Lossless join decomposition}: ensures that the decomposition does not introduce wrong tuples when relations are joined together [must have]
@@ -142,11 +142,11 @@ Remedy to get 1NF: Form new relations for each multivalued attribute or nested r
 \end{itemize}
 
 \subsubsection{Dependency Preservation}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Given a set of dependencies $F$ on $R$, the \textbf{projection} of $F$ on Ri, denoted by $F|Ri$ where $attr(Ri)$ is a subset of $attr(R)$, is the set of dependencies $X\rightarrow Y$ in $F^+$ such that the attributes in $X \cup Y$ are all contained in $attr(Ri)$
     \item Hence, the projection of $F$ on each relation schema $Ri$ in the decomposition $D$ is the set of functional dependencies in $F^+$, the closure of $F$. such that all their left- and right-hand side attributes are in $attr(Ri)$
     \item Dependency Preservation:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item A decomposition $D=R1,R2,...,Rm$ of R is \textbf{dependency-preserving} with respect to F if the union of the projections of F on each Ri in D is equivalent to F; that is \[
         (F|R1 \cup ...\cup F|Rm)^+ = F^+
         \]
@@ -155,17 +155,17 @@ Remedy to get 1NF: Form new relations for each multivalued attribute or nested r
     \item It is not always possible to find a dependency-preserving decomposition such that each relation is in BCNF
 \end{itemize}
 \subsubsection{Lossless Join Decomposition}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item A decomposition $D=R1,R2,...,Rm$ of R is a \textbf{loss less join decomposition} with respect to the set of dependencies $F$ on $R$ if, for every relation instance $r$ of $R$ that satisfies $F$, the following holds: \[
     \pi_{R1}(r) \bowtie ... \bowtie \pi_{attr(Rm)}(r)=r
     \] (join of the pieces gives the original relation
     \item R1 and R2 form a lossless join decomposition of R with respect to a set of functional dependencies F iff 
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item $(R1 \cap R2) \rightarrow (R1-R2)$ is in $F^+$ or
         \item $(R1 \cap R2) \rightarrow (R2-R1)$ is in $F^+$
     \end{itemize}
     \item Example: Consider $R(A,B,C)$, $F=\{AB\rightarrow C, C \rightarrow B\}$, $R1(A,C), R2(B,C)$. Is $R1, R2$ a lossless decomposition of R?
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item $(R1 \cap R2) \rightarrow (R1-R2) \Rightarrow C \rightarrow A$. This is not in $F^+$
         \item $(R1 \cap R2) \rightarrow (R2-R1) \Rightarrow C \rightarrow B$. This is in $F^+$ 
         \item R1, R2 is thus lossless a decomposition of R
@@ -188,10 +188,10 @@ The result is a lossless join decomposition. The resulting schemas do not necess
 
 \subsection{Multivalued Dependencies, 4NF}
 \textbf{Definition:}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item A \textbf{multivalued dependency (MVD)} $X \twoheadrightarrow Y$ on relation schema $R$, where $X$ and $Y$ are both subsets of $R$, specifies the following constraint on any relation instance $r$ of $R$:\\
     If two tuples $t_1$ and $t_2$ exist in $r$ such that $t_1[X]=t_2[X]$, then two tuples $t_3$ and $t_4$ should also exist in $r$ with the following properties, where we use $Z$ to denote $(R-(X\cup Y))$:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item $t_3[X]=t_4[X]=t_1[X]=t_2[X]$
         \item $t_3[Y]=t_4[Y]=t_1[Y]=t_2[Y]$
         \item $t_3[Z]=t_4[Z]=t_1[Z]=t_2[Z]$
@@ -200,7 +200,7 @@ The result is a lossless join decomposition. The resulting schemas do not necess
 \end{itemize}
 
 \textbf{Inference Rules for Functional and Multivalued Dependencies}:
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item reflexivity FDs: $X\supseteq Y \models x \rightarrow Y$
     \item augmentation FDs: $X\rightarrow Y \models XZ \rightarrow YZ$
     \item transitivity FDs: $X\rightarrow Y, Y \rightarrow Z \models X \rightarrow Z$
@@ -215,9 +215,9 @@ The result is a lossless join decomposition. The resulting schemas do not necess
 \subsubsection{Fourth Normal Form (4NF)}
 
 \textbf{Definition:}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item A relation schema $R$ with a set of functional and multivalued dependencies F is in \textbf{4NF} iff, for every multivalued dependency $X \twoheadrightarrow Y$ in $F^+$ at least one of the following holds:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item $X\twoheadrightarrow Y$ is trivial
         \item X is a superkey for $R$
     \end{itemize}
@@ -226,11 +226,11 @@ The result is a lossless join decomposition. The resulting schemas do not necess
 \end{itemize}
 
 \subsection{Summary}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Relational database design goals: eliminate redundancy
     \item Main concept: functional dependencies
     \item Functional dependencies:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Definition
         \item Armstrong's inference rules: reflexivity, augmentation, transitivity
         \item equivalence of sets of FDs
@@ -238,16 +238,16 @@ The result is a lossless join decomposition. The resulting schemas do not necess
     \end{itemize}
     \item Approach: Start with all attributes in a single relation and decompose it vertically until all functional dependencies are acceptable
     \item Normal forms based on candidate keys and FD
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item 1NF, 2NF, 3NF, BCNF
     \end{itemize}
     \item BCNF normalization algorithm 
     \item Dependency Preservation
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item always possible for 3NF; not always possible for BCNF
     \end{itemize}
     \item Lossless Join Decomposition
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item always required
     \end{itemize}
     \item Multivalued Dependencies, 4NF

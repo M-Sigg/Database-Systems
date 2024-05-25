@@ -2,17 +2,17 @@
 
 \textbf{\underline{Relation Schema}}
 \bigskip
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item A \textbf{relation schema} R, denoted by $R(A_1,A_2,...,A_n)$, is made up of a relation name and a list of attributes.
     \item $attr(R)$ denotes the set of attributes of relation with name 
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item[] $R$: $attr(Customer) = \underbrace{\{CustName, CustStreet, CustCity\}}_\text{Set}$
     \end{itemize}
 \end{itemize}
 
 \textbf{\underline{Attribute}}
 \bigskip
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item The set of allowed values for each attribute is called the \textbf{domain} of the attribute
     \item Attribute values are required to be \textbf{atomic}; that is, indivisible
 \end{itemize}
@@ -27,45 +27,45 @@
 
 \textbf{\underline{Characteristics of Relations}}
 \bigskip
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Relations are \textbf{unordered}, i.e., the order of tuples is irrelevant
 \end{itemize}
 
 \textbf{\underline{Database}}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item A database consists of multiple relations
 \end{itemize}
 
 \textbf{\underline{Summary of the Relational Data Model}}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item A \textbf{domain} $D$ is a set of atomic data values.
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item phone numbers, names, grades, birthdates, departments
         \item each domain includes the special value \texttt{null}
     \end{itemize}
     \item With each domain a \textbf{data type} or format is specified.
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item 5 digit integers, yyyy-mm-dd, characters
     \end{itemize}
     \item An \textbf{attribute} $A_i$ describes the role of a domain in a relation schema
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item PhoneNr, Age, DeptName
     \end{itemize}
     \item A \textbf{relation schema} $R(A_1,...,A_n)$ is made up of a relation name $R$ and a list of attributes
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item $Employee(Name,Dept,Salary),\ Departement(DName, Manager, Address)$
     \end{itemize}
     \item A \textbf{tuple} $t$ is an ordered list of values $t=(v_1,...,v_n)$ with $v_i \in dom(A_i)$
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item $t=('Tom','SE',23K)$
     \end{itemize}
     \item A \textbf{relation} $r\subseteq D_1 \times ... \times D_n$ over schema $R(A_1,...,A_n)$ is a set of n-ary tuples
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item $r= \{('Tom','SE',23K),('Lene','DB',33K)\}\subseteq Names \times Departments \times Integer$
         \item $s=\{('SE', 'Tom','Boston'),('DB','Lena','Tucson')\}$
     \end{itemize}
     \item A \textbf{database} $DB$ is a set of relations
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item $DB=\{r,s\}$
     \end{itemize}
 \end{itemize}
@@ -73,7 +73,7 @@
 \textbf{\underline{Constraints}}
 \bigskip
 Key Constraints \label{keyConstraints}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Let $K\subseteq attr(R)$
     \item $K$ is a \textbf{superkey} of $R$ if values for $K$ are sufficient to identify a unique tuple of each possible relation $r$
     \item Superkey are not minimal
@@ -81,19 +81,19 @@ Key Constraints \label{keyConstraints}
     \item \textbf{Primary key}: a candidate key chosen as the principal means of identifying tuples within a relation
 \end{itemize}
 Entity constraints
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item The entity constraint requires that the primary key attributes of each relation may not have \texttt{null} values
 \end{itemize}
 \textbf{\underline{Referential Integrity}}
 \bigskip
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item A relation schema may have an attribute that corresponds to the primary key of a relation. The attribute is called a \textbf{foreign key}.
 \end{itemize}
 
 \subsection{Basic Relational Algebra Operators}
 
 \textbf{\underline{Basic Operators}}:
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Select $\sigma$
     \item Project $\pi$
     \item Union $\cup$
@@ -105,7 +105,7 @@ Entity constraints
 Relational algebra is a procedural language, i.e., order of operation matters
 
 \subsubsection{Select Operator}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{Notation}: $\sigma_p(r)$
     \item $p$ is called the \textbf{selection predicate}
     \item \textbf{Definition}: $t\in \sigma_p(r) \Leftrightarrow t \in r \land p(t)$
@@ -114,7 +114,7 @@ Relational algebra is a procedural language, i.e., order of operation matters
 \end{itemize}
 
 \subsubsection{Project Operator}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{Notation}: $\pi_{A_1,...,A_k}(r)$
     \item The result is defined as the relation of $k$ columns obtained by deleting the columns that are not listed
     \item \textbf{Definition}: $t\in \pi_{A_1,...,A_k}(r) \Leftrightarrow \exists x(x\in r \land t = x[A_1,...,A_k])$
@@ -123,7 +123,7 @@ Relational algebra is a procedural language, i.e., order of operation matters
 \end{itemize}
 
 \subsubsection{Union Operator}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{Notation}: $r \cup s$
     \item \textbf{Definition}: $t\in (r\cup s) \Leftrightarrow t \in r \lor t \in s$
     \item For $r\cup s$ to be valid $r$ and $r$ must have union compatible schema
@@ -131,7 +131,7 @@ Relational algebra is a procedural language, i.e., order of operation matters
 \end{itemize}
 
 \subsubsection{Set Difference Operator}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{Notation}: $r-s$
     \item \textbf{Definition}: $t\in (r-s) \Leftrightarrow t \in r \land t \notin s$
     \item Set differences must be taken between (union) compatible relations.
@@ -139,7 +139,7 @@ Relational algebra is a procedural language, i.e., order of operation matters
 \end{itemize}
 
 \subsubsection{Cartesian Product Operator}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{Notation}: $r \times s$
     \item \textbf{Definition}: $t \in (r \times s) \Leftrightarrow x \in r \land y \in s \land t = x \circ y$
     \item The attribute names of $r$ and $s$ must be disjoint, otherwise a naming conflict exists. To prevent naming conflict, renaming must be used.
@@ -153,9 +153,9 @@ Relational algebra is a procedural language, i.e., order of operation matters
 \end{figure}
 
 \subsubsection{Rename Operator}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Allows us to name the results of relation algebra expressions by setting relation and attribute names
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item $\rho_r(E)$ changes the relation name to $r$
         \item $\rho_{r(A_1,...,A_n)}(E)$ changes the relation name to $r$ and the attribute names to $A_1,...,A_k$
         \item $\rho_{(A_1,...,A_n)}(E)$ changes attribute names to $A_1,...,A_k$
@@ -165,7 +165,7 @@ Relational algebra is a procedural language, i.e., order of operation matters
 
 \subsection{Additional Relational Algebra Operators}
 
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Set intersection $\cap$
     \item Join $\bowtie$
     \item Division $\div$
@@ -175,11 +175,11 @@ Relational algebra is a procedural language, i.e., order of operation matters
 These additional operators \textbf{do not add expressive power}. They just simplify queries, they could be replaced by basic operators.
 
 \subsubsection{Set Intersection Operator}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{Notation}: $r \cap s$
     \item \textbf{Definition}: $t \in (r \cap s) \Leftrightarrow t \in r \land t \in s$
     \item Precondition:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item $r,s$ have the same arity
         \item attributes of $r$ and $s$ are compatible
     \end{itemize}
@@ -188,7 +188,7 @@ These additional operators \textbf{do not add expressive power}. They just simpl
 \end{itemize}
 
 \subsubsection{Theta Join Operator}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{Notation}: $r \bowtie_\theta s$
     \item \textbf{Definition}: Let $r$ and $s$ be relations on schema $R$ and $S$, respectively. $\theta$ is a boolean condition on the attributes of $r$ and $s$
     \item $r \bowtie_\theta s$ is a relation on schema that includes all attributes from schema $R$ and all attributes from schema $S$
@@ -196,7 +196,7 @@ These additional operators \textbf{do not add expressive power}. They just simpl
 \end{itemize}
 
 \subsubsection{Natural Join Operator}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{Notation}: $r \bowtie s$
     \item \textbf{Definition}: Let $r$ and $s$ be relations on schema $R$ and $S$, respectively.
     \item $r \bowtie s$ is a relation on schema that includes all attributes from schema $R$ and all attributes from schema $S$ that do not occur in schema $R$.
@@ -204,13 +204,13 @@ These additional operators \textbf{do not add expressive power}. They just simpl
 \end{itemize}
 
 \subsubsection{Division Operator}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{Notation}: $r \div s$
     \item Suited for queries that include the phrase "for all".
     \item Let $r$ and $s$ be relations on schemas $R(A_1,...,A_m,B_1,...,B_n)$ and $S(B_1,...,B_n)$, respectively.
     \item The result of $r \div s$ is a relation with attributes $R-S=(A_1,...,A_m)$
     \item \textbf{Definition}: $t\in (r \div s) \Leftrightarrow t \in \pi_{R-S}(r) \land \forall u \in s(t\circ u \in r)$
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item $t \circ u$ is the concatenation of tuples $t$ and $u$
         \item $R-S$: all attributes of schema $R$ that are not in schema $S$
     \end{itemize}
@@ -221,37 +221,37 @@ These additional operators \textbf{do not add expressive power}. They just simpl
 \includegraphics[width=0.6\textwidth]{images/Screenshot 2024-05-04 at 09.59.38.jpg}
 \caption{Division Operator}
 \end{figure}
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item $'\alpha','a','\gamma'$ is in output because both 'combinations' with $s$, $'\alpha','a','\gamma','a',1$ and $'\alpha','a','\gamma','b',1$ exist already in $r$.
         \item $'\beta','a','\gamma'$ is not in output because only $'\beta','a','\gamma','a',1$ is in $r$ and $'\beta','a','\gamma','b',1$ is not
     \end{itemize}
     \item Property: 
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Let $q=r\div s$
         \item Then $q$ is the largest relation satisfying $q\times s \subseteq r$
     \end{itemize}
 \end{itemize}
 
 \subsubsection{Assignment Operator}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item The assignment operator $\leftarrow$ provides a convenient way to express complex queries by breaking them up into smaller pieces
 \end{itemize}
 
 \subsection{Extended Relational Algebra Operators}
 
 \subsubsection{Generalized Projection}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Extends the projection operation by allowing arithmetic functions to be used in the projection list
     \item Example: $\pi_{CustName, Limit - CreditBal}(credit_info)$
 \end{itemize}
 \subsubsection{Aggregate Functions}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{Aggregate function} takes a collection of values and returns a single value as a result: (avg, min, max, sum, count)
     \item Example: $res \leftarrow \rho_{Res(SumC)} ( \vartheta _{sum(C)} (r))$
     \item Example: $res \leftarrow \rho_{Res(BName,SumBal)}(_{BranchName} \vartheta_{sum(Balance)}(account))$, where $BranchName$ is a grouping criteria
 \end{itemize}
 \subsubsection{Outer Join}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item The (inner) join does not return tuples that do not have a join partner.
     \item The outer join avoids this loss of information. (By using \texttt{null} values).
     \item \textbf{Left Outer Join} preserves tuples from the left table
@@ -261,7 +261,7 @@ These additional operators \textbf{do not add expressive power}. They just simpl
 
 \subsection{Modification of the Database}
 Modifications are done by using the assignment operator:
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Delete: $r\leftarrow r - E$
     \item Insert: $r \leftarrow r \cup E$
     \item Update: $r \leftarrow E$
@@ -274,9 +274,9 @@ Modification operations are expensive, since space for the tuples must be alloca
 \includegraphics[width=0.6\textwidth]{images/Screenshot 2024-05-04 at 10.44.01.jpg}
 \caption{Text Terminal Notation}
 \end{figure}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Additional Typewriter Notation for DRC:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item $\Rightarrow=$ \texttt{=>}
         \item $\forall=$ \texttt{:F}
         \item $\exists$ \texttt{:E}
@@ -291,7 +291,7 @@ Relational calculus is a \textbf{non-procedural} or \textbf{declarative} languag
 
 \subsubsection{First Order Predicate Logic}
 Syntax:
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{logical symbols}: $\land, \lor, \lnot, \Rightarrow, \exists, \forall, ...$
     \item \textbf{constant}: string, number,...;
     \item \textbf{identifier}: character sequence starting with a letter
@@ -303,14 +303,14 @@ Syntax:
     \item \textbf{formula}: atom, $A \land B, A \lor B, \lnot A, A \Rightarrow B, \exists XA, \forall XA, (A),... $ with formulas $A, B$; variable $X$
 \end{itemize}
 Terminology:
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item A variable is \textbf{free} is it is not quantified
     \item A variable is \textbf{bound} if it is quantified
 \end{itemize}
 
 \subsubsection{Domain Relation Calculus}
 A domain relational calculus query is of the form $\{X_1,...,X_n | formula \}$, where $X_1,...,X_n$ are the only free variables in \textit{formula}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Example: To determine first and last names of all employees whose salary is above \$50,000, we write: \[
     \{FN, LN \ |\  \exists Sal(emp(FN, \_, LN, \_, Sal) \land Sal >50000) \}
     \]

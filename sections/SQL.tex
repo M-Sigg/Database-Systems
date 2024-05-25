@@ -1,8 +1,8 @@
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item SQL is based on \textbf{multisets} (or bags) rather than sets. In a multiset an element may occur multiple times.
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Reasons for not automatically removing duplicates:
-        \begin{itemize}
+        \begin{itemize}[label=\(\rhd\)]
             \item expensive to remove duplicates (sorting)
             \item for aggregation duplicates are relevant
         \end{itemize}
@@ -32,7 +32,7 @@
 
 \subsubsection{Domain Types}
 Domain Types in SQL:
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item CHAR(n): fixed length character string
     \item VARCHAR(n): character string with maximum length $n$
     \item INTEGER
@@ -55,10 +55,10 @@ Example:
 
 \textbf{\underline{Drop and Alter Table Constructs}}
 \bigskip
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item The \textbf{drop table} command deletes the whole table from the database
     \item The \textbf{alter table} command is used to add columns to an existing table
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item[] \textbf{alter table} r \textbf{add} $A$ $D$ 
     \end{itemize}
 \end{itemize}
@@ -66,55 +66,55 @@ Example:
 
 \subsubsection{Integrity constrains}
 
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Integrity constraints guard against damage to the database
     \item Formally, an integrity constraint is a closed first order formula that must be true, i.e., that each database instance must satisfy.
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Example: $\forall B(account(\_,\_,B) \Rightarrow B<10M)$
     \end{itemize}
 \end{itemize}
 
 Integrity constraints on single relations:
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{Domain Constraints}
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Domain constraints are the most elementary form of integrity constraints. They check values inserted in the database, and they check queries to ensure that the comparisons make sense.
         \item New domains can be created from existing data types
         \item Example:
-        \begin{itemize}
+        \begin{itemize}[label=\(\rhd\)]
             \item[] \begin{lstlisting}
                 CREATE DOMAIN Dollars INTEGER
                 CREATE DOMAIN Pounds INTEGER
             \end{lstlisting}
         \end{itemize}
         \item We cannot assign or compare a value of type Dollar to a value of type Pounds. But we can convert values: 
-        \begin{itemize}
+        \begin{itemize}[label=\(\rhd\)]
             \item[] \begin{lstlisting}
                 CAST(r.Amnt/1.5 AS Pounds)
             \end{lstlisting}
         \end{itemize}
     \end{itemize}
     \item \textbf{not null}
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item[] \begin{lstlisting}
             BranchName VARCHAR(15) NOT NULL
             CREATE DOMAIN Dollars INTEGER NOT NULL
         \end{lstlisting}
     \end{itemize}
     \item \textbf{primary key}
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item A primary key ensures that an attribute value is not null and unique across all rows of a table. Therefore it can be used to identify a unique row in a table, and is used for query optimization
         \item Within the Create Table construct include \begin{lstlisting}
             PRIMARY KEY (CustName)
         \end{lstlisting}
     \end{itemize}
     \item \textbf{unique}
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item The unique specification states that the attributes $A_1,A_2,...,A_m$ form a candidate key.
         \item Candidate keys are permitted to be null 
     \end{itemize}
     \item \textbf{check}($P$), where $P$ is a predicate over a single relation 
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Within the Create Table Construct include: \begin{lstlisting}
             CHECK (Assets >= 0)
         \end{lstlisting}
@@ -122,9 +122,9 @@ Integrity constraints on single relations:
 \end{itemize}
 
 Integrity constraints over multiple relations (Referential Integrity):
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{foreign key}
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Within the Create Table Construct include:
         \begin{lstlisting}
             FOREIGN KEY (BranchN) REFERENCES branch
@@ -132,10 +132,10 @@ Integrity constraints over multiple relations (Referential Integrity):
     \end{itemize}
     \item \textbf{check}($P$), where $P$ is a predicate over multiple relations
     \item \textbf{assertion}
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item An assertion is a predicate expressing a condition that the database must satisfy.
         \item An assertion in SQL takes the form
-        \begin{itemize}
+        \begin{itemize}[label=\(\rhd\)]
             \item[] \textbf{create assertion} <assertion-name> \textbf{check} <predicate>
         \end{itemize}
     \end{itemize}
@@ -144,10 +144,10 @@ Integrity constraints over multiple relations (Referential Integrity):
 \textbf{\underline{Expressions}}
 \bigskip
 
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Numeric functions: $+,-,*,/, abs(e), ceil(e), tan(e), log(e), round(e), sign(e), mod(e,f),...$
     \item Character functions:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item concatenation: 'abc' || 'de' = 'abcde'
         \item \textbf{position}('48' \textbf{in} 'another 48 hours') = 9
         \item \textbf{substring}('anothe' \textbf{from} 1 \textbf{for} 3) = 'ano'
@@ -155,7 +155,7 @@ Integrity constraints over multiple relations (Referential Integrity):
         \item \textbf{trim}(\textbf{leading} ' ' \textbf{from} ' test') = 'test
     \end{itemize}
     \item date and time functions:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item \textbf{current\_date}, \textbf{current\_time}
         \item \textbf{current\_timestamp}
         \item \textbf{current\_date} + \textbf{interval} '1' \textbf{day}
@@ -163,7 +163,7 @@ Integrity constraints over multiple relations (Referential Integrity):
         \item \textbf{interval} '6' \textbf{day} - \textbf{interval} 'a' \textbf{day} = \textbf{interval} '5' \textbf{day}
      \end{itemize}
      \item type conversions:
-     \begin{itemize}
+     \begin{itemize}[label=\(\rhd\)]
          \item \textbf{cast}('48' \textbf{as integer}) = 48
          \item often "natural" type conversions are done implicitly
      \end{itemize}
@@ -177,11 +177,11 @@ Integrity constraints over multiple relations (Referential Integrity):
          end
      \end{lstlisting}
      \item \textbf{coalesce}(val1,..., valN)
-     \begin{itemize}
+     \begin{itemize}[label=\(\rhd\)]
          \item returns the first value that is not null (and null if all values are equal to null)
      \end{itemize}
      \item  \textbf{nullif}(e1,e2)
-     \begin{itemize}
+     \begin{itemize}[label=\(\rhd\)]
          \item returns null if e1 and e2 are identical; useful if missing information is not represented with null; \textbf{nullif}(cost,9999)
      \end{itemize}
 \end{itemize}
@@ -189,7 +189,7 @@ Integrity constraints over multiple relations (Referential Integrity):
 \textbf{\underline{Predicates}}
 \bigskip
 
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Predicates evaluate to true, false or unknown
     \item boolean connectives: \textbf{and}, \textbf{or}, \textbf{not}
     \item $=,<>, <,>,<=,>=$
@@ -197,7 +197,7 @@ Integrity constraints over multiple relations (Referential Integrity):
     \item e \textbf{is [not] null}
     \item e \textbf{in} (e1,...,eN)
     \item e1 \textbf{like} e2
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item example:
         \begin{lstlisting}
             Name like '_ross%'
@@ -222,13 +222,13 @@ The result of an SQL query is a (virtual) table.
 
 \subsubsection{The from Clause}
 
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item The \textbf{from} clause lists the table involved in the query
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Corresponds to the Cartesian product operation of the relational algebra (if multiple tables listed in from clause)
     \end{itemize}
     \item Many different joins supported
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item \textbf{CROSS JOIN} = Cartesian product (implicitly also given without keyword)
         \item \textbf{Theta Join}: \quad \textbf{FROM} t1 \textbf{JOIN} t2 \textbf{ON} t1.a < t2.b
         \item \textbf{Left Outer Join}: \quad \textbf{FROM} t1 \textbf{LEFT OUTER JOIN} t2 \textbf{ON} t1.a = t2.b
@@ -239,7 +239,7 @@ The result of an SQL query is a (virtual) table.
 
 \subsubsection{The where Clause}
 
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item The \textbf{where} clause specifies conditions that the result tuples must satisfy
     \item Example:
     \begin{lstlisting}
@@ -251,7 +251,7 @@ The result of an SQL query is a (virtual) table.
 \end{itemize}
 
 \subsubsection{The group Clause}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item The \textbf{group} clause takes the table produced by the where clause and returns a grouped table
     \item Example:
     \begin{lstlisting}
@@ -262,7 +262,7 @@ The result of an SQL query is a (virtual) table.
 \end{itemize}
 
 \subsubsection{The having Clause}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item The \textbf{having} clause takes a grouped table as input and returns a grouped table
     \item The having condition is applied to each group. Only groups that satisfy it are returned
     \item Example:
@@ -274,20 +274,20 @@ The result of an SQL query is a (virtual) table.
 \end{itemize}
 
 \subsubsection{The select Clause}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item The \textbf{select} clause lists the columns that shall be in the result of a query
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Corresponds to the projection operation of RA
     \end{itemize}
     \item To force the elimination of duplicates, insert the keyword \textbf{distinct} after select
     \item In the select clause aggregate functions can be used:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item avg, min, max, sum, count
     \end{itemize}
 \end{itemize}
 
 \subsubsection{Derived Tables}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item SQL allows a query expression to be used in the \textbf{from} clause
     \item Example:
     \begin{lstlisting}
@@ -301,7 +301,7 @@ The result of an SQL query is a (virtual) table.
 \end{itemize}
 
 \subsubsection{Query Expressions}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item The set operations \textbf{union}, \textbf{intersect}, and \textbf{except} operate on tables and correspond to the relational algebra operations $\cup, \cap, -$
     \item Each automatically removes duplicates, to preserve duplicates add \textbf{all} after operator
 \end{itemize}
@@ -310,7 +310,7 @@ The result of an SQL query is a (virtual) table.
 
 \subsubsection{Subqueries}
 
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item A \textbf{subquery} is a \textbf{query expression} that is nested within another query expression.
     \item Example:
     \begin{lstlisting}
@@ -318,7 +318,7 @@ The result of an SQL query is a (virtual) table.
     \end{lstlisting}
     \item[\textbf{!}] Semantics/evaluation: For each tuple of p evaluate the subquery and check if X is in the result table computed by the subquery
     \item The \textbf{exists} construct returns the value \textbf{true} if the argument subquery is nonempty
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item[\textbf{!}] Use \textbf{exists} instead of \textbf{in, all, any, some}
     \end{itemize}
 \end{itemize}
@@ -338,21 +338,21 @@ is equivalent to the \textit{multiset} version of the expression: \[
 \]
 
 \subsubsection{Null Values}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item The  predicate \textbf{is null} can be used to check for null values.
     \item Any comparison with \textit{null} returns unknown
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Example: $5<null$ or $null<>null$ or $null=null$ 
     \end{itemize}
     \item All aggregate operations, expect \textbf{count(*)}, ignore tuples with null values on the aggregated columns. 
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Arithmetic operations like $7+ null = null$, thus they do not ignore null values
     \end{itemize}
 \end{itemize}
 
 \subsubsection{Ordering}
 
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{ORDER BY} CustName => orders the result table alphabetically (ascending = default)
     \item \textbf{ORDER BY} CustName \textbf{DESC} => in descending order
 \end{itemize}
@@ -395,25 +395,25 @@ Here order matters! $\Rightarrow$ Better use the \textbf{case} statement
 
 \subsubsection{Purpose of views}
 
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item A view is a table whose rows are not stored in the database. The rows are computed when needed from the view definition.
     \item A view provides a mechanism to hide data from the view of users, or to give users direct access to the results of (complex) computations.
 \end{itemize}
 \subsubsection{Creation and use of views}
 
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item A view is defined using the \textbf{create view} statement which has the form 
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item[] \textbf{CREATE VIEW} \textit{v} \textbf{AS} <query expression>
     \end{itemize}
 \end{itemize}
 
 \subsubsection{Handling views in the DBMS}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item The view definition is stored in the meta database.
     \item A view is \textbf{updatable} if the database system can determine the reverse mapping 
     \item Example:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item[] \begin{lstlisting}
             CREATE VIEW goodStudents (sid, gpa) AS
                 SELECT SID, GPA
@@ -422,14 +422,14 @@ Here order matters! $\Rightarrow$ Better use the \textbf{case} statement
 
             INSERT INTO goodStudents VALUES (51234, 2.8)                 
         \end{lstlisting}
-        \begin{itemize}
+        \begin{itemize}[label=\(\rhd\)]
             \item Result: student is inserted into students relation, but cannot be retrieved through the view \textit{goodStudents}
         \end{itemize}
     \end{itemize}
 \end{itemize}
 
 \subsubsection{Temporary Views - With Clause}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item The \textbf{with} clause provides a way of defining temporary views whose definition is only available to the query in which the \textbf{with} clause occurs
     \item Example:
     \item[] \begin{lstlisting}
@@ -445,10 +445,10 @@ Here order matters! $\Rightarrow$ Better use the \textbf{case} statement
 \end{itemize}
 
 \subsubsection{Recursion in SQL}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Recursive views are required to be \textbf{monotonic}. That is, if we add tuples to \textit{manager} the view contains all of the tuples it contained before, plus possibly more.
     \item Example:
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item[] \begin{lstlisting}
             WITH RECURSIVE mgr(EmpName, MgrName) AS (
                 SELECT EmpName, BossName % base case
@@ -466,13 +466,13 @@ Here order matters! $\Rightarrow$ Better use the \textbf{case} statement
 
 
 \subsection{User Defined Functions (UDF)}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item User defined functions or stored procedures allow to execute application logic in the process space of the DBMS.
     \item $\Rightarrow$ good for performance since it reduces the amount of data that is transferred between client and server.
 \end{itemize}
 
 \subsubsection{PL/pgSQL value functions}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item Structure
     \begin{lstlisting}[]
         create function somefunc()
@@ -485,7 +485,7 @@ Here order matters! $\Rightarrow$ Better use the \textbf{case} statement
         $$ language plpgsql;
     \end{lstlisting}
     \item < \textit{retype} >
-        \begin{itemize}
+        \begin{itemize}[label=\(\rhd\)]
             \item INTEGER, RECORD, TABLE, ...
         \end{itemize}
     \item < \textit{declarations} >
@@ -527,7 +527,7 @@ Here order matters! $\Rightarrow$ Better use the \textbf{case} statement
 \end{itemize}
 
 \subsubsection{PL/pgSQL table functions}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item \textbf{Table functions} return a table
     \item Example - All accounts with a balance above a threshold:
     \begin{lstlisting}
@@ -551,9 +551,9 @@ Here order matters! $\Rightarrow$ Better use the \textbf{case} statement
 \end{itemize}
 
 \subsection{Summary}
-\begin{itemize}
+\begin{itemize}[label=\(\rhd\)]
     \item DDL (data definition language)
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Used to \textbf{create, alter}, and \textbf{drop} tables.
         \item Table definitions include \textbf{constraints} (domain, not null, primary key, foreign key)
         \item Constraints ensure \textbf{data quality}, which in turn gives competitive advantages to businesses
@@ -561,18 +561,18 @@ Here order matters! $\Rightarrow$ Better use the \textbf{case} statement
         \item Data quality must be considered during data acquisition; the database system must enforce it; it cannot be fixed later
     \end{itemize}
     \item Expressions and predicates
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item Database systems have been conservative since the efficient evaluation must be considered
         \item The brute force evaluation of a condition on one billion tuples might not be good enough.
         \item Modern database systems are extensible with user defined functions
     \end{itemize}
     \item SQL
-    \begin{itemize}
+    \begin{itemize}[label=\(\rhd\)]
         \item SQL is used very heavily in practice
         \item The building block of the DML are \textbf{query specifications} and \textbf{query expressions}
         \item SQL is more than simple select-from-where. The set based semantics of SQL requires some practice
         \item Know the \textbf{conceptual evaluation}/semantics of query expressions
-        \begin{itemize}
+        \begin{itemize}[label=\(\rhd\)]
             \item From the cross product of the tables in the from clause
             \item Eliminate tuples that do not satisfy the where clause
             \item Group the remaining tuples according to the group clause

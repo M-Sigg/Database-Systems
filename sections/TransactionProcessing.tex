@@ -304,8 +304,93 @@ Example: A conflict serializable schedule with 5 transactions and precedence gra
 \end{itemize}
 \end{itemize}
 \end{itemize}
+
 \subsubsection{Transactions in SQL}
+\begin{itemize}[label=\(\rhd\)]
+    \item The SQL standard define three \textbf{undesired phenomena} of transactions: 
+    \begin{itemize}[label=\(\rhd\)]
+        \item \textbf{dirty read}: a transaction sees changes from other uncommitted transactions
+        \item \textbf{non-repeatable read}: if a transaction retrieves a row twice it gets different answers
+        \item \textbf{phantom reads}: if a transaction retrieves a range of rows twice it retrieves a different answer
+    \end{itemize}
+    \item The SQL standard uses the undesired phenomena to define four \textbf{isolation levels} as follows: 
+
+\centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+         \cellcolor{gray!10}\text{Phenomena} & \cellcolor{gray!10}\text{Dirty read}  & \cellcolor{gray!10}\text{Non-repeatable read} & \cellcolor{gray!10}\text{Phantom read} \\ 
+         \hline
+       \cellcolor{gray!50}\text{Isolation level} & yes & yes & yes \\ 
+       \hline
+        \cellcolor{gray!50}\text{read uncommitted} & yes & yes & yes \\ 
+        \hline
+        \cellcolor{gray!50}\text{read committed} & no & yes & yes \\ 
+       \hline
+        \cellcolor{gray!50}\text{repeatable read} & no & no & yes \\ 
+        \hline
+        \cellcolor{gray!50}\text{serializable} & no & no & no \\
+        \hline
+    \end{tabular}
+    
+\end{itemize}
 \subsubsection{Transactions in DBMSs}
+
+\begin{itemize}[label=\(\rhd\)]
+    \item Database systems do not always make \textit{serializable} the default isolation level
+    \item The SQL commands \textbf{COMMIT} and \textbf{ROLLBACK} finish the running transaction
+\end{itemize}
+
+\subsubsection{Deadlock Handling}
+
+\begin{itemize}[label=\(\rhd\)]
+    \item Deadlocks are addressed in two ways: 
+    \begin{itemize}[label=\(\rhd\)]
+        \item Deadlock prevention protocols are used
+        \item Deadlocks are detected and resolved
+    \end{itemize}
+\end{itemize}
+
+\bigskip
+\textbf{\underline{Deadlock Prevention Protocols}}\\
+
+\begin{itemize}[label=\(\rhd\)]
+    \item Ensure that the system will never enter into a deadlock state
+    \item Two deadlock prevention protocols are \textbf{wait-die} and \textbf{wound-wait}. They use transaction timestamps to prevent deadlocks
+    \item With both protocols rolled-back transactions are restarted with their original timestamp. Since older transaction have precedence over newer ones starvation is avoided
+    \item Timeout-based protocols can be used to avoid deadlocks:
+    \begin{itemize}[label=\(\rhd\)]
+        \item A transaction waits for a lock only for a specified amount of time. After that, the wait times out and the transaction is rolled back
+        \item Simple to implement; but starvation is possible. Also difficult to determine good value of timeout interval 
+    \end{itemize}
+\end{itemize}
+
+\bigskip
+\textbf{\underline{Deadlock Detection and Recovery}}\\
+
+\begin{itemize}[label=\(\rhd\)]
+    \item Deadlocks can be described as a \textbf{wait-for graph}, which consists of a pair $G=(V,E)$,
+    \begin{itemize}[label=\(\rhd\)]
+        \item V is a set of vertices representing all transactions
+        \item E is a set of edges; each element is an ordered pair $T_i\rightarrow T_j$
+    \end{itemize}
+    \item If $T_i \rightarrow T_j$ is in E, there is a directed edge from $T_i$ to $T_j$, implying that $T_i$ is waiting for $T_j$ to release a data item
+    \item If $T_i$ requests a data item being held by $T_j$, edge $T_i \rightarrow T_j$ is inserted in the wait-for graph. This edge is removed when $T_j$ is no longer holding a data item needed by $T_i$
+    \item The system is in a deadlock state iff the wait-for graph has a cycle. Must invoke a deadlock-detection algorithm periodically to look for cycles
+    \item When a deadlock is detected, the system must \textbf{recover} from the deadlock
+    \item The most common solution is to roll back one or more transactions to break the deadlock. Three actions are required: 
+    \begin{enumerate}
+        \item \textbf{Selection of a victim}: For rollback select the transaction(s) that will incur minimum cost
+        \item \textbf{Rollback}: Determine how far to roll back transaction
+        \begin{itemize}[label=\(\rhd\)]
+            \item Total rollback: Abort the transaction and then restart it
+            \item Partial rollback: roll back transaction only as far as necessary to break deadlock
+        \end{itemize}
+        \item \textbf{Check Starvation}: happens if same transaction is always chosen as victim
+        \begin{itemize}[label=\(\rhd\)]
+            \item Include the number of rollbacks in the cost factor to avoid starvation
+        \end{itemize}
+    \end{enumerate}
+\end{itemize}
 
 \subsection{Recovery System}
 \subsubsection{Log-Based Recovery}

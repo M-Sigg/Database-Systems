@@ -200,6 +200,7 @@ These additional operators \textbf{do not add expressive power}. They just simpl
     \item \textbf{Notation}: $r \bowtie s$
     \item \textbf{Definition}: Let $r$ and $s$ be relations on schema $R$ and $S$, respectively.
     \item $r \bowtie s$ is a relation on schema that includes all attributes from schema $R$ and all attributes from schema $S$ that do not occur in schema $R$.
+    \item Joins by all matching columns!
     \item Example: $r \bowtie (s)$ [works only if attribute names are the same]
 \end{itemize}
 
@@ -242,7 +243,7 @@ These additional operators \textbf{do not add expressive power}. They just simpl
 \subsubsection{Generalized Projection}
 \begin{itemize}[label=\(\rhd\)]
     \item Extends the projection operation by allowing arithmetic functions to be used in the projection list
-    \item Example: $\pi_{CustName, Limit - CreditBal}(credit_info)$
+    \item Example: $\pi_{CustName, Limit - CreditBal}(credit\_info)$
 \end{itemize}
 \subsubsection{Aggregate Functions}
 \begin{itemize}[label=\(\rhd\)]
